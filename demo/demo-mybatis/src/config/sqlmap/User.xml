@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="test"><!-- namespace ：命名空间，用于隔离sql语句 -->
+
+    <!-- 根据id获取用户信息 -->
+    <select id="findUserById" parameterType="int" resultType="cn.moke.mybatis.po.User">
+        select * from user where id=#{id}
+    </select>
+    <!-- 自定义条件查询用户列表 -->
+    <select id="findUserByUsername" parameterType="java.lang.String"
+            resultType="cn.moke.mybatis.po.User">
+        select * from user where username like '%${value}%'
+    </select>
+    <!--
+    parameterType：定义输入到sql中的映射类型
+    #{id}表示使用preparedstatement设置占位符号并将输入变量id传到sql
+    resultType：定义结果映射类
+    ${}：表示拼接sql串，将接收到参数的内容不加任何修饰拼接在sql中，有sql注入风险
+    ${value}：如果传入类型是简单类型，${}中只能使用value
+    -->
+    <insert id="insertUser" parameterType="cn.itcast.mybatis.po.User">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into user(username,birthday,sex,address)
+        values(#{username},#{birthday},#{sex},#{address})
+    </insert>
+
+</mapper>
