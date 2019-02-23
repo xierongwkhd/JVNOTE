@@ -6,9 +6,9 @@
 **项目**：  
   
 1.[Net-BooksCity]:  
-开发环境：jdk1.8、Intelli IDEA、tomcat9.0
-所用知识：javaweb，无ssm框架
-**前台页面**：
+开发环境：jdk1.8、Intelli IDEA、tomcat9.0  
+所用知识：javaweb，无ssm框架  
+**前台页面**：  
 &emsp;用户模块：注册、激活、登陆、退出  
 &emsp;分类模块：查看所有分类  
 &emsp;图书模块：查看所有图书、按分类查询、查询图书详细(bid查询)  
