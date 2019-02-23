@@ -1,0 +1,83 @@
+﻿
+msdn：redis、solr
+jackjson
+ZUI、KindEditor、
+ssm框架都用了哪些设计模式
+
+一、环境搭建
+1.创建maven的父子工程->通过pom.xml加载所需要的jar包：
+jstl、javax、spring、mybatis、spring和mybatis整合、mysql驱动、连接池、日志、redis、json
+
+2.创建相关配置文件：
+（1）spring：applicationContext.xml->spring-mybatis.xml
+    数据源（jdbc.properties）、sqlSessionFactory、mapper扫描器、事务管理
+（2）mybatis：SqlMapConfig.xml->mybatis-config.xml
+    别名、全局设置（驼峰匹配：在mybatis 中,数据库表有一个与之对应的实体类.类属性的命名是驼峰命名的,所以在mybatis中要开启驼峰匹配）、
+    配置插件（主键自增、分页）？？？
+（3）mvc：springmvc.xml->spring-mvc.xml
+    controller扫描器、注解映射器适配器、文件上传、静态资源
+（3）log4j日志配置：log4j.properties
+
+3.web.xml配置
+（1）controller配置
+（2）过滤器配置：post乱码
+（3）监听器配置：加载spring配置文件、防止spring内存溢出（？）
+（4）session配置？
+
+4.项目功能分析：
+用户注册与激活，激活方式通过邮件激活；
+用户的登录和退出，包括账号登录和手机快捷登录；
+用户账号登录和注册时需要输入验证码验证；
+首页展示及分页，主要展示文章内容，可进行搜索，将搜索结果高亮显示；
+首页文章的点赞、踩和评论功能；
+个人主页模块，包括个人的基本信息，梦分类，发布梦，管理梦以及热梦推荐等；
+书写文章功能；
+文章管理功能，包括文章的查看、修改和删除；
+个人信息修改功能；
+安全框架 spring-security 的整合，对不符合条件的用户或者 URL 进行拦截；
+记录用户登录信息，包括登录的时间、IP 等；
+
+5.数据库表：
+用户表 user√、角色表 role、资源表 resource，角色用户中间表 role_user，角色资源中间表 role_resource
+用户详细信息表 user_info、文章表 user_content√、评论表 comment、点赞表 upvote、登录日志表 login_log
+
+各个表的功能：
+用户详细信息表：主要是把常用字段放在 user 表中，不常用字段放在详细信息表中，提高查询效率；
+文章表：主要包含文章的分类、文章标题、点赞数、评论数等；
+评论表：主要是文章的评论模块，包含评论者 ID、被评论者 ID、评论内容、点赞等；
+点赞表：主要是控制用户点赞的频率，每天只允许用户点赞一次等；
+登录日志表：主要记录用户登录的时间、IP 等
+
+6.表结构设计：PowerDesigner
+
+7.生成表后，通过逆向工程生成相应实体类
+
+8.创建service接口，实体类要实现的功能方法
+
+9.创建mapping文件夹，dao中创建每个模块的mapper.java接口都继承通用mapper
+通用mapper：基于 MyBatis 的一个插件，它实现了大部分常用的增删改查方法，只要继承它就能拥有所有的通用方法，省去手写 XML 的烦恼。但是对于复杂的查询语句还是需要手写 XML 的
+
+10.导入页面原型：引入 JSP 和 CSS、JS、images 等资源文件
+
+11.注册页面功能实现：RegisterController
+校验手机邮箱是否已经注册、发送邮件
+
+12.加入分布式缓存框架redis（applicationContext-redis.xml，redis.properties）
+
+13.登陆页面功能实现：LoginController
+账号登陆、手机快捷登陆（不实现）
+
+14.导入index原型，实现首页博客展示以及博客分页
+获取动态数据、分页、退出登录、点赞踩、评论回复
+
+15.个人主页模块：分类查询、分组查询、热度排行
+
+16、博客书写页面模块：KindEditor 富文本编辑器
+
+17.个人资料修改页面：修改基本信息、修改头像、修改密码
+
+18、首页搜索功能：solr（配置solr，对文章的添加删除操作需要增加添加删除索引的操作，分页查询添加查询索引操作（HttpSolrClient对象））
+
+
+
+
