@@ -5,7 +5,7 @@
   
 **项目**：  
   
-1.[Net-BooksCity]:  
+**[Net-BooksCity]**:  
 开发环境：jdk1.8、Intelli IDEA、tomcat9.0  
 所用知识：javaweb，无ssm框架  
 **前台页面**：  
@@ -20,7 +20,7 @@
 &emsp;图书管理：查看所有图书、按id查询、删除图书（假删除，即del列由false变为true）、修改图书、添加图书（上传图片）  
 &emsp;订单模块：查询所有订单、按状态查询订单、发货  
   
-2.[personal-blog]:  
+**[personal-blog]**:  
 开发环境：jdk1.8、Intelli IDEA、tomcat9.0  
 所用技术：spring+springmvc+mybatis+redis+mysql+jquery+Bootstrap  
 
