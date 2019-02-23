@@ -1,11 +1,11 @@
 # 文档说明
 泪奔，所有文件都不见了，还好笔记同时保存在了博客上  
-**笔记跳转：[博客](https://blog.csdn.net/MOKEXFDGH)  **
+**笔记跳转：**[博客](https://blog.csdn.net/MOKEXFDGH)  
 [demo]:学习过程的一些demo  
   
   
 **项目**：  
-**[Net-BooksCity]**:网上书城  
+**[Net-BooksCity]:** 网上书城  
 >开发环境：jdk1.8、Intelli IDEA、tomcat9.0  
     所用知识：javaweb，无ssm框架  
     实现功能：  
@@ -21,7 +21,7 @@
     &emsp;图书管理：查看所有图书、按id查询、删除图书、修改图书、添加图书（上传图片）  
     &emsp;订单模块：查询所有订单、按状态查询订单、发货  
   
-**[personal-blog]**:个人博客系统  
+**[personal-blog]:** 个人博客系统  
 >开发环境：jdk1.8、Intelli IDEA、tomcat9.0  
 所用技术：  
 &emsp;框架：spring+springmvc+mybatis  
