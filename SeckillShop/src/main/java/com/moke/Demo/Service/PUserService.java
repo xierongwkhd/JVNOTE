@@ -56,11 +56,7 @@ public class PUserService {
 			throw new GlobleException(CodeMsg.PASSWORD_ERROR);
 		//生成cookie
 		String token = UUIDUtil.uuid();
-		redisService.set(PUserKey.token, token, user);
-		Cookie cookie = new Cookie(COOKIE_NAME_TOKEN, token);
-		cookie.setMaxAge(PUserKey.token.expierSeconds());
-		cookie.setPath("/");
-		response.addCookie(cookie);
+		addCookie(response,token,user);
 		return true;
 	}
 	
