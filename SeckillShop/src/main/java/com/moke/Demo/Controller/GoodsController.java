@@ -25,6 +25,14 @@ public class GoodsController {
 	@Autowired
 	RedisService redisService;
 	
+	
+	/**
+	 * QPS 1961.9
+	 * 5000 * 10
+	 * @param model
+	 * @param user
+	 * @return
+	 */
     @RequestMapping("/to_list")
     public String list(Model model,PUser user) {
     	model.addAttribute("user", user);

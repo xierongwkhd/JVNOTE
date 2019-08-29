@@ -33,18 +33,11 @@ public class LoginController {
 	
 	@RequestMapping("/do_login")
 	@ResponseBody
-	public Result<Boolean> doLogin(HttpServletResponse response,@Valid LoginVo loginVo){
+	public Result<String> doLogin(HttpServletResponse response,@Valid LoginVo loginVo){
 		log.info(loginVo.toString());
 		//参数校验，使用@Valid校验
-//		if(loginVo.getMobile()==null) {
-//			return Result.error(CodeMsg.MOBAILE_EMPTY);
-//		}else if(ValidatorUtil.isMobile(loginVo.getMobile())) {
-//			return Result.error(CodeMsg.MOBILE_ERROR);
-//		}else if(loginVo.getPassword()==null) {
-//			return Result.error(CodeMsg.PASSWORD_EMPTY);
-//		}
-		pUserService.login(response,loginVo);
-		return Result.success(true);
+		String token = pUserService.login(response,loginVo);
+		return Result.success(token);
 
 	}
 }

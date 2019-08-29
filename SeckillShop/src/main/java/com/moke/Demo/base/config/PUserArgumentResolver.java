@@ -44,6 +44,8 @@ public class PUserArgumentResolver implements HandlerMethodArgumentResolver{
 
 	private String getCookieValue(HttpServletRequest request, String cookieNameToken) {
 		Cookie[] cookies = request.getCookies();
+		if(cookies==null || cookies.length<=0)
+			return null;
 		for(Cookie cookie:cookies) {
 			if(cookie.getName().equals(cookieNameToken))
 				return cookie.getValue();

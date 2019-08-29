@@ -42,7 +42,7 @@ public class PUserService {
 		return user;
 	}
 
-	public boolean login(HttpServletResponse response, LoginVo loginVo) {
+	public String login(HttpServletResponse response, LoginVo loginVo) {
 		String mobile = loginVo.getMobile();
 		String formPass = loginVo.getPassword();
 				
@@ -57,7 +57,7 @@ public class PUserService {
 		//生成cookie
 		String token = UUIDUtil.uuid();
 		addCookie(response,token,user);
-		return true;
+		return token;
 	}
 	
 	private void addCookie(HttpServletResponse response, String token, PUser user) {

@@ -1,7 +1,5 @@
 package com.moke.Demo.base;
 
-import ch.qos.logback.core.db.dialect.MsSQLDialect;
-
 public class Result<T> {
 	private int code;
 	private String msg;
