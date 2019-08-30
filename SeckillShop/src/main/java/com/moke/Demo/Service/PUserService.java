@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.moke.Demo.Dao.PUserDao;
+import com.moke.Demo.Dao.UserDao;
 import com.moke.Demo.Domain.PUser;
 import com.moke.Demo.Vo.LoginVo;
 import com.moke.Demo.base.CodeMsg;
@@ -27,7 +28,28 @@ public class PUserService {
 	RedisService redisService;
 	
 	public PUser getById(long id) {
-		return pUserDao.getById(id);
+		PUser user = redisService.get(PUserKey.getById, ""+id, PUser.class);
+		if(user!=null)
+			return user;
+		user = pUserDao.getById(id);
+		if(user!=null)
+			redisService.set(PUserKey.getById, ""+id, user);
+		return user;
+	}
+	
+	public boolean updatePassword(String token,long id,String passwordNew) {
+		PUser user = getById(id);
+		if(user==null)
+			throw new GlobleException(CodeMsg.MOBILE_NOT_EXIST);
+		PUser upUser = new PUser();
+		upUser.setId(id);
+		upUser.setPassword(MD5Util.formPassToDBPass(passwordNew,user.getSalt()));
+		pUserDao.update(upUser);
+		//处理缓存
+		redisService.delete(PUserKey.getById, ""+id);
+		user.setPassword(upUser.getPassword());
+		redisService.set(PUserKey.token, token, user);
+		return true;
 	}
 	
 	public PUser getByToken(HttpServletResponse response, String token) {
