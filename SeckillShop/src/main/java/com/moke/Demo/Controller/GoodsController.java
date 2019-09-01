@@ -20,7 +20,9 @@ import com.moke.Demo.Domain.PUser;
 import com.moke.Demo.Service.PGoodsService;
 import com.moke.Demo.Service.PUserService;
 import com.moke.Demo.Service.RedisService;
+import com.moke.Demo.Vo.PGoodsDetailVo;
 import com.moke.Demo.Vo.PGoodsVo;
+import com.moke.Demo.base.Result;
 import com.moke.Demo.base.redis.PGoodsKey;
 
 @Controller
@@ -69,42 +71,72 @@ public class GoodsController {
         return html;
     }
     
-    @RequestMapping(value="/to_detail/{id}",produces="text/html")
+//    @RequestMapping(value="/to_detail2/{id}",produces="text/html")
+//    @ResponseBody
+//    public String detail2(HttpServletRequest request,HttpServletResponse response,
+//    					Model model,PUser user,@PathVariable("id")long goodsId) {
+//    	//页面缓存
+//    	String html = redisService.get(PGoodsKey.getGoodsDetail, ""+goodsId, String.class);
+//        if(!StringUtils.isEmpty(html))
+//        	return html;
+//    	model.addAttribute("user", user);
+//    	PGoodsVo goods = pGoodsService.getGoodsVoByGoodsId(goodsId);
+//    	model.addAttribute("goods", goods);
+//    	long start = goods.getStartDate().getTime();
+//    	long end = goods.getEndDate().getTime();
+//    	long now = System.currentTimeMillis();
+//    	
+//    	int status = 0;//状态
+//    	int remain = 0;
+//    	if(now<start) {
+//    		status = 0;
+//    		remain = (int)(start-now)/1000;
+//    	}else if(now >end) {
+//    		status = 2;
+//    		remain = -1;
+//    	}else {
+//    		status = 1;
+//    		remain = 0;
+//    	}
+//    	model.addAttribute("miaoshaStatus", status);
+//    	model.addAttribute("remainSeconds", remain);
+//        //手动渲染
+//        WebContext springWebContext = new WebContext(
+//        		request,response,request.getServletContext(),
+//        		request.getLocale(),model.asMap());
+//        html = thymeleafViewResolver.getTemplateEngine().process("goods_detail", springWebContext);
+//    	if(!StringUtils.isEmpty(html))
+//    		redisService.set(PGoodsKey.getGoodsDetail, ""+goodsId, html);
+//        return html;
+//    }
+    
+    @RequestMapping(value="/detail/{id}")
     @ResponseBody
-    public String detail(HttpServletRequest request,HttpServletResponse response,
+    public Result<PGoodsDetailVo> detail(HttpServletRequest request,HttpServletResponse response,
     					Model model,PUser user,@PathVariable("id")long goodsId) {
-    	//页面缓存
-    	String html = redisService.get(PGoodsKey.getGoodsDetail, ""+goodsId, String.class);
-        if(!StringUtils.isEmpty(html))
-        	return html;
-    	model.addAttribute("user", user);
     	PGoodsVo goods = pGoodsService.getGoodsVoByGoodsId(goodsId);
-    	model.addAttribute("goods", goods);
+    	
     	long start = goods.getStartDate().getTime();
     	long end = goods.getEndDate().getTime();
     	long now = System.currentTimeMillis();
     	
-    	int status = 0;//状态
-    	int remain = 0;
+    	int miaoshastatus = 0;//状态
+    	int remainSeconds = 0;
     	if(now<start) {
-    		status = 0;
-    		remain = (int)(start-now)/1000;
+    		miaoshastatus = 0;
+    		remainSeconds = (int)(start-now)/1000;
     	}else if(now >end) {
-    		status = 2;
-    		remain = -1;
+    		miaoshastatus = 2;
+    		remainSeconds = -1;
     	}else {
-    		status = 1;
-    		remain = 0;
+    		miaoshastatus = 1;
+    		remainSeconds = 0;
     	}
-    	model.addAttribute("miaoshaStatus", status);
-    	model.addAttribute("remainSeconds", remain);
-        //手动渲染
-        WebContext springWebContext = new WebContext(
-        		request,response,request.getServletContext(),
-        		request.getLocale(),model.asMap());
-        html = thymeleafViewResolver.getTemplateEngine().process("goods_detail", springWebContext);
-    	if(!StringUtils.isEmpty(html))
-    		redisService.set(PGoodsKey.getGoodsDetail, ""+goodsId, html);
-        return html;
+    	PGoodsDetailVo gdv = new PGoodsDetailVo();
+    	gdv.setGoods(goods);
+    	gdv.setMiaoshastatus(miaoshastatus);
+    	gdv.setRemainSeconds(remainSeconds);
+    	gdv.setUser(user);
+        return Result.success(gdv);
     }
 }

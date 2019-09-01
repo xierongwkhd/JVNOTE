@@ -20,6 +20,9 @@ public interface PGoodsDao {
 	@Select("select t2.*,t1.stock_count,t1.start_date,t1.end_date,t1.seckill_price from t_goods_seckill t1 left join t_goods t2 on t1.goods_id = t2.id where t2.id = #{goodsId}")
 	public PGoodsVo getGoodsVoByGoodsId(@Param("goodsId") long goodsId);
 
+	/*
+	 * 避免库存为负，设置 stock_count为无符号整型
+	 */
 	@Update("update t_goods_seckill set stock_count = stock_count-1 where goods_id=#{goodsId}")
-	public void reduceStock(PGoodsSeckill g);
+	public int reduceStock(PGoodsSeckill g);
 }

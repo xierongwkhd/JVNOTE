@@ -2,7 +2,6 @@ package com.moke.Demo.Service;
 
 import java.util.Date;
 
-import org.apache.ibatis.javassist.expr.NewArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,9 +17,12 @@ public class POrderService {
 	
 	@Autowired
 	private POrderDao pOrderDao;
+	@Autowired
+	private RedisService redisService;
 
 	public POrder getMiaoShaOrderByUserIdGoodsId(Long userId, long goodsId) {
-		return pOrderDao.getMiaoShaOrderByUserIdGoodsId(userId,goodsId);
+		//return redisService.get(POrderKey.getPOrderByUidGid, userId+","+goodsId, POrder.class);
+		return pOrderDao.getMiaoShaOrderByUserIdGoodsId(userId, goodsId);
 	}
 
 	@Transactional
@@ -41,7 +43,12 @@ public class POrderService {
 		order.setOrderId(orderId);
 		order.setUserId(user.getId());
 		pOrderDao.insertOrder(order);
+		//redisService.set(POrderKey.getPOrderByUidGid, user.getId()+","+goods.getId(),POrder.class);
 		return orderInfo;
+	}
+
+	public POrderInfo getOrderById(long orderId) {
+		return pOrderDao.getOrderById(orderId);
 	}
 	
 	

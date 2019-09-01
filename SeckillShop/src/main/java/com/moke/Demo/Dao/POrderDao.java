@@ -22,4 +22,7 @@ public interface POrderDao {
 
 	@Insert("insert into t_order(user_id, goods_id, order_id)values(#{userId}, #{goodsId}, #{orderId})")
 	public void insertOrder(POrder order);
+
+	@Select("select * from t_order_info where id = #{orderId}")
+	public POrderInfo getOrderById(@Param("orderId") long orderId);
 }
