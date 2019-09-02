@@ -15,6 +15,9 @@ public class CodeMsg {
 	public static final CodeMsg MOBILE_NOT_EXIST = new CodeMsg(500212, "手机号不存在");
 	public static final CodeMsg PASSWORD_ERROR = new CodeMsg(500213, "密码错误");
 	public static final CodeMsg SESSION_ERROR = new CodeMsg(500214, "未登录");
+	public static final CodeMsg REQUEST_ILLEGAL = new CodeMsg(500215, "请求非法");
+	public static final CodeMsg MIAOSHA_FAIL = new CodeMsg(500216, "秒杀失败");
+	public static final CodeMsg ACCESS_LIMIT = new CodeMsg(500216, "访问太频繁");
 
 	
 	public static final CodeMsg MIAO_SHA_OVER = new CodeMsg(500310, "商品不存在");
