@@ -37,10 +37,10 @@ public class POrderService {
 		orderInfo.setOrderChannel((byte) 1);
 		orderInfo.setStatus((byte) 0);//未支付
 		orderInfo.setUserId(user.getId());
-		long orderId = pOrderDao.insertOrderInfo(orderInfo);
+		pOrderDao.insertOrderInfo(orderInfo);
 		POrder order = new POrder();
 		order.setGoodsId(goods.getId());
-		order.setOrderId(orderId);
+		order.setOrderId(orderInfo.getId());
 		order.setUserId(user.getId());
 		pOrderDao.insertOrder(order);
 		//redisService.set(POrderKey.getPOrderByUidGid, user.getId()+","+goods.getId(),POrder.class);

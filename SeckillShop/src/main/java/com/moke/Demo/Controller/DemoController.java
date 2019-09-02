@@ -11,6 +11,7 @@ import com.moke.Demo.Service.RedisService;
 import com.moke.Demo.Service.UserService;
 import com.moke.Demo.base.CodeMsg;
 import com.moke.Demo.base.Result;
+import com.moke.Demo.base.rabbitmq.MQSender;
 import com.moke.Demo.base.redis.UserKey;
 
 @Controller
@@ -21,6 +22,36 @@ public class DemoController {
 	private UserService userService;
 	@Autowired
 	private RedisService redisService;
+	@Autowired
+	private MQSender mQSender;
+	
+//	@RequestMapping("/mq/header")
+//	@ResponseBody
+//	public Result<String> header() {
+//		mQSender.sendHeader("hello,imooc");
+//		return Result.success("Hello，world");
+//	}
+//	
+//	@RequestMapping("/mq/fanout")
+//	@ResponseBody
+//	public Result<String> fanout() {
+//		mQSender.sendFanout("hello,imooc");
+//		return Result.success("Hello，world");
+//	}
+//	
+//	@RequestMapping("/mq/topic")
+//  	@ResponseBody
+//  	public Result<String> topic() {
+//		mQSender.sendTopic("hello,imooc");
+//      	return Result.success("Hello，world");
+//  	}
+//	
+//	@RequestMapping("/mq")
+//	@ResponseBody
+//	public String mq() {
+//		mQSender.send("hello,imooc");
+//		return "hello world";
+//	}
 	
 	@RequestMapping("/")
 	@ResponseBody
