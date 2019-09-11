@@ -1,7 +1,9 @@
 package moke.demo.ssm.interceptor;
 
 import moke.demo.ssm.common.PageHelper;
+import moke.demo.ssm.controller.BaseController;
 import moke.demo.ssm.dao.UserContentMapper;
+import moke.demo.ssm.entity.User;
 import moke.demo.ssm.entity.UserContent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -13,7 +15,7 @@ import java.util.List;
 /**
  * Created by MOKE on 2019/2/17.
  */
-public class IndexJspFilter implements Filter{
+public class IndexJspFilter extends BaseController implements Filter{
     public void init(FilterConfig filterConfig) throws ServletException {
 
     }
@@ -26,6 +28,8 @@ public class IndexJspFilter implements Filter{
         List<UserContent> list = userContentMapper.findByJoin(null);
         PageHelper.Page endPage = PageHelper.endPage();//分页结束
         request.setAttribute("page", endPage );
+        User user = getCurrentUser();
+        request.setAttribute("user",user);
         chain.doFilter(request, response);
     }
 

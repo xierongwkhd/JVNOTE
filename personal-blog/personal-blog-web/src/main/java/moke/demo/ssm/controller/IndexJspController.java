@@ -53,7 +53,7 @@ public class IndexJspController extends BaseController {
                                               @RequestParam(value = "comment_time",required = false) String comment_time,
                                               @RequestParam(value = "upvote",required = false) Integer upvote) {
         Map map = new HashMap<String,Object>(  );
-        User user = (User)getSession().getAttribute("user");
+        User user = getCurrentUser();
         if(user == null){
             map.put( "data","fail" );
             return map;
@@ -99,7 +99,7 @@ public class IndexJspController extends BaseController {
                                              @RequestParam(value = "con_id",required = false) Long con_id,@RequestParam(value = "fid",required = false) Long fid) {
         int num = 0;
         Map map = new HashMap<String,Object>(  );
-        User user = (User)getSession().getAttribute("user");
+        User user = getCurrentUser();
         if(user==null){
             map.put( "data","fail" );
         }else{
@@ -155,7 +155,7 @@ public class IndexJspController extends BaseController {
                                       @RequestParam(value = "comment_time",required = false) String comment_time,
                                       @RequestParam(value = "upvote",required = false) Integer upvote) {
         Map map = new HashMap<String,Object>(  );
-        User user = (User)getSession().getAttribute("user");
+        User user = getCurrentUser();
         if(user == null){
             map.put( "data","fail" );
             return map;
@@ -233,7 +233,7 @@ public class IndexJspController extends BaseController {
                                      @RequestParam(value = "upvote",required = false) int upvote) {
         log.info( "id="+id+",uid="+uid+"upvote="+upvote );
         Map map = new HashMap<String,Object>(  );
-        User user = (User)getSession().getAttribute("user");
+        User user = getCurrentUser();
 
         if(user == null){
             map.put( "data","fail" );
@@ -301,7 +301,7 @@ public class IndexJspController extends BaseController {
                               @RequestParam(value = "pageNum",required = false) Integer pageNum ,
                               @RequestParam(value = "pageSize",required = false) Integer pageSize) {
         log.info( "===========进入index_list=========" );
-        User user = (User)getSession().getAttribute("user");
+        User user = getCurrentUser();
         if(user!=null){
             model.addAttribute( "user",user );
         }

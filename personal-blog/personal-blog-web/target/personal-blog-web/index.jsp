@@ -452,7 +452,11 @@
     }
     //点赞或踩
     function upvote_click(id,cont) {
-
+        var uid = "${user.id}";
+        if(uid==''||uid==null){
+            window.location.href = "/login.jsp";
+            return
+        }
         $.ajax({
             type:'post',
             url:'/upvote',
@@ -567,6 +571,11 @@
 
     //点击评论按钮
     function _comment(content_id,uid,cuid) {
+        var uid = "${user.id}";
+        if(uid==''||uid==null){
+            window.location.href = "/login.jsp";
+            return
+        }
         var myDate = new Date();
         //获取当前年
         var year=myDate.getFullYear();

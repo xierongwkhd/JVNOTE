@@ -35,7 +35,7 @@ public class WriteController extends BaseController {
     @RequestMapping("/deleteContent")
     public String deleteContent(Model model, @RequestParam(value = "cid",required = false) Long cid) {
 
-        User user = (User)getSession().getAttribute("user");
+        User user = getCurrentUser();
         if(user==null) {
             return "../login";
         }
@@ -50,7 +50,7 @@ public class WriteController extends BaseController {
     //个人主页跳转至书写页面
     @RequestMapping("/writedream")
     public String writedream(Model model,@RequestParam(value = "cid",required = false) Long cid) {
-        User user = (User) getSession().getAttribute("user");
+        User user = getCurrentUser();
         if(cid!=null){
             UserContent content = userContentService.findById(cid);
             model.addAttribute("cont",content);
@@ -68,7 +68,7 @@ public class WriteController extends BaseController {
                                @RequestParam(value = "content",required = false) String content,
                                @RequestParam(value = "private_dream",required = false) String private_dream) {
         log.info( "进入写博客Controller" );
-        User user = (User)getSession().getAttribute("user");
+        User user = getCurrentUser();
         if(user == null){
             //未登录
             model.addAttribute( "error","请先登录！" );
@@ -116,7 +116,7 @@ public class WriteController extends BaseController {
      */
     @RequestMapping("/watch")
     public String watchContent(Model model, @RequestParam(value = "cid",required = false) Long cid){
-        User user = (User)getSession().getAttribute("user");
+        User user = getCurrentUser();
         if(user == null){
             //未登录
             model.addAttribute( "error","请先登录！" );
@@ -134,7 +134,7 @@ public class WriteController extends BaseController {
     public String watchContent2(Model model,
                                 @RequestParam(value = "pageNum",required = false) Integer pageNum ,
                                 @RequestParam(value = "pageSize",required = false) Integer pageSize){
-        User user = (User)getSession().getAttribute("user");
+        User user = getCurrentUser();
         if(user == null){
             //未登录
             model.addAttribute( "error","请先登录！" );

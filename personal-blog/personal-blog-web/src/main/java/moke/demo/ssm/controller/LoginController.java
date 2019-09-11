@@ -26,7 +26,7 @@ public class LoginController extends BaseController {
 
     @RequestMapping("/login")
     public String login(Model model) {
-        User user = (User)getSession().getAttribute("user");
+        User user = getCurrentUser();
         if(user!=null){
             return "redirect:/list";
         }
