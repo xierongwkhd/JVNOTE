@@ -41,11 +41,13 @@
     <div class="row" style="margin-top: 50px">
         <div class="col-sm-6 col-sm-offset-3 col-md-4 col-sm-offset-4 login-box">
             <!--标签页，两种登录方式-->
-            <ul class="nav nav-secondary nav-justified">
+            <ul class="nav nav-secondary nav-justified" id="ap_login">
                 <li id="a_login" class="active"><a data-toggle="tab" href="#account-login">账号登录</a></li>
+                <li id="p_login"><a data-toggle="tab" href="#phone-login">手机快捷登录</a></li>
             </ul>
             <!-- 标签页内容，两种表单 -->
             <div class="tab-content">
+                <!--普通登录-->
                 <div class="tab-pane fade in active" id="account-login">
                     <form id="normal_form" name="form" role="form" class="login-form" action="${ctx}/doLogin" method="post">
                         <div class="form-group">
@@ -73,17 +75,15 @@
                             <div class="checkbox">
                                 <label>
                                     <br/>
-                                    <c:if test="${state eq '1'}">
-                                    <input type="checkbox" name="state" id="loginstate" value="1" checked = checked> 记住登录状态
-                                    </c:if>
-                                    <c:if test="${state eq '0'}">
-                                        <input type="checkbox" name="state" value="0" id="loginstate"> 记住登录状态
-                                    </c:if>
+
                                     <c:if test="${error eq 'fail'}">
                                         <span style="color: red" id="back_data">用户名或者密码错误</span>
                                     </c:if>
                                     <c:if test="${error eq 'active'}">
                                         <span style="color: red" id="back_active">您的账号未激活，请先激活！</span>
+                                    </c:if>
+                                    <c:if test="${error eq 'phone_fail'}">
+                                        <span style="color: red" id="back_phone">手机验证码错误或者已失效</span>
                                     </c:if>
                                     <span style="color: green" id="normal_span">${success}</span>
                                 </label>
@@ -97,7 +97,43 @@
                     </form>
                 </div>
                 <!--手机登录-->
+                <div class="tab-pane fade" id="phone-login">
+                    <form role="form" class="login-form form-horizontal" id="phone_form" action="${ctx}/doLogin" method="post">
+                        <div class="form-group">
+                            <label for="username" class="sr-only">用户名</label>
+                            <div class="col-xs-12">
+                                <input type="text" id="phone" name="telephone" class="form-control" placeholder="手机号" onblur="checkPhone();">
+                                <input type="hidden" id="tab" name="tab"  value="pho-login">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="sr-only">密码</label>
+                            <div class="col-xs-6">
+                                <input type="text" id="verifyCode" name="phone_code" class="form-control" placeholder="验证码" onclick="checkPhoneCode();">
+                            </div>
+                            <div class="col-xs-6">
+                                <button class="btn btn-primary btn-block" id="go">获取验证码</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <!-- 多选框 -->
+                            <div class="checkbox col-xs-12">
+                                <label>
+                                    <input type="checkbox" name="hobbies"> 记住登录状态
 
+                                </label>
+                            </div>
+                        </div>
+                        <span id="phone_span"></span>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <button type="button" id="phone_btn" class="btn btn-primary btn-block">登录</button>
+                                <br/>
+                                <div style="margin-left: 260px"> <a href = "register.jsp" >立即注册</a></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>`
@@ -109,6 +145,7 @@
     function checkUserName() {
         $("#back_data").text("");
         $("#back_active").text("");
+        $("#back_phone").text("");
         var username = $("#username").val();
         username = username.replace(/^\s+|\s+$/g,"");
         if(username == ""){
@@ -123,6 +160,7 @@
     function checkPassword() {
         $("#back_data").text("");
         $("#back_active").text("");
+        $("#back_phone").text("");
         var password = $("#password").val();
         password = password.replace(/^\s+|\s+$/g, "");
         if (password == "") {
@@ -147,6 +185,7 @@
     function checkCode() {
         $("#back_data").text("");
         $("#back_active").text("");
+        $("#back_phone").text("");
         var code = $("#code").val();
         code = code.replace(/^\s+|\s+$/g,"");
         if(code == ""){
@@ -182,10 +221,11 @@
         if(event.keyCode == 13)
 
         {
-            normal_login();
+           normal_login();
         }
 
     });
+
     //验证码框回车事件
     $("#code").bind('keypress',function(event){
 
@@ -204,6 +244,116 @@
         }
     }
 
+    //校验手机号
+    var flag2 = false
+    function checkPhone(){
+        var phone = $("#phone").val();
+        phone = phone.replace(/^\s+|\s+$/g,"");
+        if(!(/^1[3|4|5|8|7][0-9]\d{8}$/.test(phone))){
+            $("#phone_span").text("手机号码非法，请重新输入！").css("color","red");
+            flag2 = false;
+        }else{
+            $.ajax({
+                type:'post',
+                url:'/checkPhone',
+                data: {"phone":phone},
+                dataType:'json',
+                success:function(data){
+                    var val = data['message'];
+                    if(val=="success"){
+                        //未注册
+                        $("#phone_span").text("该手机号还未注册！");
+                        flag2 =  false;
+                    }else{
+                        //注册
+                        $("#phone_span").text("");
+                        flag2 =  true;
+                    }
+                }
+            });
+
+        }
+        return flag2;
+    }
+
+    //获取验证码
+    $(function () {
+        var go = document.getElementById('go');
+
+        go.onclick = function (ev){
+            if(!flag2){
+                $("#phone_span").text("手机号码非法或者未注册！").css("color","red");
+            }else {
+                //  发送短信给用户手机..
+                // 1 发送一个HTTP请求，通知服务器 发送短信给目标用户
+                var telephone =$("input[name='telephone']").val();// 用户输入的手机号
+                // 用户输入手机号校验通过
+                $("#go").attr("disabled", "disabled");
+                countDown(60);
+
+                $.ajax({
+                    method: 'POST',
+                    url: '${ctx}/sendSms',// 发送验证码给ActiveQM, 同时保存验证码到redis数据库
+                    data : {
+                        telephone : telephone
+                    },
+                    success:function(data) {
+                        var tt = data["msg"];
+                        if(tt){
+                            alert("发送短信成功!");
+
+                        }else{
+                            alert("发送短信出错，请联系管理员");
+                        }
+                    }
+                });
+            }
+            var oEvent = ev || event;
+            //js阻止链接默认行为，没有停止冒泡
+            oEvent.preventDefault();
+            return false;
+
+        }
+    });
+
+    //倒计时
+    function countDown(s){
+        if(s <= 0){
+            $("#go").text("重新获取");
+            $("#go").removeAttr("disabled");
+            return;
+        }
+        /* $("#go").val(s + "秒后重新获取");*/
+        $("#go").text(s + "秒后重新获取");
+        setTimeout("countDown("+(s-1)+")",1000);
+    }
+
+    var p_flag = false;
+    //手机验证码校验
+    function checkPhoneCode(){
+        var reg = /^\d{6}\b/;
+        var code = $("#verifyCode").val();
+        if(reg.test(code)){
+            p_flag =  true;
+        }else {
+            p_flag =  false;
+        }
+
+        return p_flag;
+    }
+
+    //登录
+    $("#phone_btn").click(function () {
+
+        if(checkPhone()&& checkPhoneCode()){
+            // 校验用户名和密码
+            $("#phone_span").text("").css("color","red");
+            $("#phone_form").submit();
+        }else {
+            alert("请输入手机号和6位验证码!");
+        }
+
+    });
 
 </script>
 </body>

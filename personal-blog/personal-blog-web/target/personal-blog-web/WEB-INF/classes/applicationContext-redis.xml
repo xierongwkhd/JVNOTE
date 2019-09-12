@@ -14,6 +14,7 @@
         <property name="hostName" value="${redis.ip}" />
         <property name="port" value="${redis.port}" />
         <property name="database" value="${redis.database}" />
+        <property name="password" value="${redis.password}"/>
         <property name="poolConfig" ref="poolConfig"/>
     </bean>
     <!-- redis模板配置 -->

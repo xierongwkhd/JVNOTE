@@ -11,6 +11,7 @@ import javax.jms.MessageListener;
  */
 @Component
 public class SmsAuthenCode implements MessageListener {
+    @Override
     public void onMessage(Message message) {
         MapMessage mapMessage = (MapMessage) message;
         // 调用SMS服务发送短信   SmsSystem阿里大于发送短信给客户手机实现类

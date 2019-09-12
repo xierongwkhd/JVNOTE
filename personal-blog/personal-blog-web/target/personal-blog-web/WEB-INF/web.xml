@@ -14,6 +14,7 @@
         classpath*:applicationContext-redis.xml
         classpath:applicationContext-solr.xml
         classpath:spring-security.xml
+        classpath*:applicationContext-activemq.xml
       </param-value>
     </context-param>
 
