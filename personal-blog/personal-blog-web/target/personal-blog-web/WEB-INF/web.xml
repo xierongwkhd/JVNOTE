@@ -116,6 +116,17 @@
     <url-pattern>/index.jsp</url-pattern>
   </filter-mapping>
 
+  <!-- 404页面 -->
+  <error-page>
+    <error-code>404</error-code>
+    <location>/WEB-INF/404.jsp</location>
+  </error-page>
+  <!-- 500页面 -->
+  <error-page>
+    <error-code>500</error-code>
+    <location>/WEB-INF/500.jsp</location>
+  </error-page>
+
 </web-app>
 
 
