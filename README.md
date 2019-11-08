@@ -4,7 +4,7 @@
 [demo]:学习过程的一些demo  
   
 **项目**：  
-**[personal-blog]:** 高并发秒杀系统设计
+**[SeckillShop]:** 高并发秒杀系统设计
 >开发环境：jdk1.8、Intelli IDEA、tomcat9.0  
 所用技术：  
 &emsp;框架：springbooot、 mybatis
