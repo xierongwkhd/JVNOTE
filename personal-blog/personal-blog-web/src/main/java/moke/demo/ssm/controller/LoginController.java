@@ -61,7 +61,6 @@ public class LoginController extends BaseController {
                           @RequestParam(value = "state",required = false) String state,
                           @RequestParam(value = "pageNum",required = false) Integer pageNum ,
                           @RequestParam(value = "pageSize",required = false) Integer pageSize) {
-        String test = "123";
         if (StringUtils.isNotBlank(telephone)) {
             //手机登录
             String yzm = redisTemplate.opsForValue().get( telephone );//从redis获取验证码

@@ -1,0 +1,37 @@
+
+spring:
+  profiles:
+    active: test
+---
+spring:
+  profiles: test
+  messages:
+    basename: i18n/login
+  thymeleaf:
+    cache: false
+---
+spring:
+  profiles: dev
+server:
+  port: 8081
+debug: true
+
+logging:
+  # 日志打印级别
+  level: trace
+  # 可以指定完整的路径,以及生成的日志文件名
+  file: F:/springboot.log
+  # 在当前磁盘的根路径下创建spring文件夹和里面的log文件夹；使用 spring.log 作为默认文件
+  path: /spring/log
+  pattern:
+    # 在控制台输出的日志的格式
+    console: '%d{yyyy-MM-dd} === [%thread] === %-5level === %logger{50} ==== %msg%n'
+    # 指定文件中日志输出的格式
+    file: '%d{yyyy-MM-dd} === [%thread] === %-5level === %logger{50} ==== %msg%n'
+
+#    %d表示日期时间，
+#    %thread表示线程名，
+#    %-5level：级别从左显示5个字符宽度
+#    %logger{50} 表示logger名字最长50个字符，否则按照句点分割。
+#    %msg：日志消息，
+#    %n是换行符
